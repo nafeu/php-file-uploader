@@ -1,48 +1,62 @@
 body {
-  background-color: #2980b9;
+  background-color: #303F9E;
   color: white;
-  font-family: "Helvetica", sans-serif;
+  font-family: "Roboto Mono", sans-serif;
+  margin: 40px;
 }
 
 *:focus {
     outline: none;
 }
 
-#file-field {
+#form-container {
+  position: relative;
+  float: left;
+  width: 20%;
   display: inline-block;
+}
+
+#file-field {
   width: 100%;
-  padding-top: 220px;
-  height: 200px;
-  overflow: hidden;
+  padding-top: 420px;
+  height: 400px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  border-radius: 5px;
   background-size: 150px 100px;
-  background-color: #3498db;
+  border: 1px solid white;
+  border-radius: 5px;
+  overflow: hidden;
   cursor: pointer;
   transition: 200ms ease-in-out all;
+  z-index: 5;
 }
 
 #file-field:hover {
-  background-color: #f1c40f;
+  border-color: #f1c40f;
+}
+
+#upload-results {
+  width: 80%;
+  display: inline-block;
+}
+
+#file-field-desc {
+  position: absolute;
+  padding: 20px;
+  user-select: none;
+  font-size: 0.5em;
+  z-index: 3;
+  cursor: pointer;
 }
 
 .ui-response {
-  width: 100%;
-  height: auto;
-  padding: 10px;
   border-radius: 5px;
+  height: auto;
+  padding: 15px;
   box-sizing: border-box;
-  color: white;
-  font-size: 1.5em;
-  margin-top: 7px;
-}
-
-.success {
-  background-color: #2ecc71;
-}
-
-.warning {
-  background-color: #e74c3c;
+  border: 1px solid white;
+  font-size: 1.2em;
+  margin: 0px 15px 15px 15px;
+  overflow: auto;
 }

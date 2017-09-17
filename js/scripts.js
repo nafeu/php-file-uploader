@@ -2,7 +2,9 @@ $(document).ready(function(){
   console.log("[ scripts.js ] Document ready...");
 
   var body = $("body"),
+      uploadResults = $("#upload-results"),
       fileField = $("#file-field"),
+      fileFieldDesc = $("#file-field-desc"),
       formData = false;
 
   if (window.FormData) {
@@ -30,21 +32,24 @@ $(document).ready(function(){
           processData: false,
           contentType: false,
           success: function(response) {
-            console.log(body);
-            body.append(createUiResponse(response, "success").hide().fadeIn(2000));
+            uploadResults.append(createUiResponse(response).hide().fadeIn(500));
           },
           error: function(response) {
-            body.append(createUiResponse(response, "warning").hide().fadeIn(2000));
+            uploadResults.append(createUiResponse(response.statusText).hide().fadeIn(500));
           }
         });
       }
     }
   });
 
+  fileFieldDesc.click(function(){
+    fileField.click();
+  });
+
 });
 
-function createUiResponse(content, level) {
-  var out = $("<div>", {class: "ui-response " + level});
+function createUiResponse(content) {
+  var out = $("<div>", {class: "ui-response"});
   out.text(content);
   return out;
 }
