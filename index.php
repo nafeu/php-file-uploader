@@ -12,9 +12,7 @@
     <link rel="stylesheet" type="text/css" href="css/styles.css">
   </head>
   <body>
-    <form id="file-form" action="upload.php" method="post" enctype="multipart/form-data">
-      <input id="file-field" type="file" name="file">
-    </form>
+    <input id="file-field" type="file" name="file">
   </body>
   <script type="text/javascript" src="js/scripts.js"></script>
 </html>

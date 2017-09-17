@@ -1,13 +1,48 @@
+body {
+  background-color: #2980b9;
+  color: white;
+  font-family: "Helvetica", sans-serif;
+}
+
+*:focus {
+    outline: none;
+}
+
 #file-field {
   display: inline-block;
   width: 100%;
-  padding: 120px 0 0 0;
-  height: 100px;
+  padding-top: 220px;
+  height: 200px;
   overflow: hidden;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  border-radius: 20px;
+  border-radius: 5px;
   background-size: 150px 100px;
-  border: 3px dotted gray;
+  background-color: #3498db;
+  cursor: pointer;
+  transition: 200ms ease-in-out all;
+}
+
+#file-field:hover {
+  background-color: #f1c40f;
+}
+
+.ui-response {
+  width: 100%;
+  height: auto;
+  padding: 10px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  color: white;
+  font-size: 1.5em;
+  margin-top: 7px;
+}
+
+.success {
+  background-color: #2ecc71;
+}
+
+.warning {
+  background-color: #e74c3c;
 }
