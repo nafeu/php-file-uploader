@@ -1,61 +1,51 @@
 <?php
 
-$target_dir = "uploads/";
-$target_path = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-$image_file_type = pathinfo($target_path,PATHINFO_EXTENSION);
-$upload_status = 1;
+$host_url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]/";
+$target_directory = "uploads/";
+$target_path = $target_directory . basename($_FILES["file-to-upload"]["name"]);
+$file_extension = pathinfo($target_path,PATHINFO_EXTENSION);
+$file_size_limit = 500000;
+$upload_status = false;
 
 while (true) {
-    $target_path = $target_dir . uniqid(rand(), true) . "." . $image_file_type;
+    $unique_id = uniqid(rand(), true);
+    $target_path = $target_directory . $unique_id . "." . $file_extension;
     if (!file_exists($target_path)) {
-      break;
+        break;
     }
 }
 
-// Check if image file is a actual image or fake image
 if (isset($_POST["submit"])) {
-    $file_is_image = getimagesize($_FILES["fileToUpload"]["tmp_name"]);
+    $file_is_image = getimagesize($_FILES["file-to-upload"]["tmp_name"]);
     if ($file_is_image !== false) {
-        echo "File is an image - " . $file_is_image["mime"] . ".";
-        $upload_status = 1;
-    } else {
-        echo "File is not an image.";
-        $upload_status = 0;
+        $upload_status = true;
     }
 }
 
-// Check if file already exists
 if (file_exists($target_path)) {
-    echo "Sorry, file already exists.";
-    $upload_status = 0;
+    $upload_status = false;
 }
 
-// Check file size
-if ($_FILES["fileToUpload"]["size"] > 500000) {
-    echo "Sorry, your file is too large.";
-    $upload_status = 0;
+if ($_FILES["file-to-upload"]["size"] > $file_size_limit) {
+    $upload_status = false;
 }
 
-// Allow certain file formats
-if ($image_file_type != "jpg"
-    && $image_file_type != "png"
-    && $image_file_type != "jpeg"
-    && $image_file_type != "gif") {
-    echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-    $upload_status = 0;
+if ($file_extension != "jpg"
+    && $file_extension != "png"
+    && $file_extension != "jpeg"
+    && $file_extension != "gif") {
+    $upload_status = false;
 }
 
-// Check if $upload_status is set to 0 by an error
-if ($upload_status == 0) {
-    echo "Sorry, your file was not uploaded.";
+if (!$upload_status) {
+    http_response_code(400);
 } else {
-    // if everything is ok, try to upload file
-    if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_path)) {
-        echo "File upload successful!";
-        echo "<br>";
-        echo "<a href='" . $target_path . "'>" . $target_path . "</a>";
+    // Upload file
+    if (move_uploaded_file($_FILES["file-to-upload"]["tmp_name"], $target_path)) {
+        $output = $host_url . $target_path;
+        echo $output;
     } else {
-        echo "Sorry, there was an error uploading your file.";
+        http_response_code(500);
     }
 }
 

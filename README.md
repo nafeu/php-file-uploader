@@ -6,7 +6,7 @@ A simple PHP file uploader for dev use only. Built to provide a CDN-like file-st
 
 ### Requirements
 
-...
+- PHP >= 5.4
 
 ### Installation
 
