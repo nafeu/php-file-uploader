@@ -14,10 +14,10 @@
   </head>
   <body>
     <div id="form-container">
-      <div id="file-field-desc">Drag images in here or click to upload.</div>
+      <div id="file-field-desc">Drag images in here, click to upload or paste from clipboard.</div>
       <input id="file-field" type="file" name="file"></input>
     </div>
-    <div id="upload-results" class="box width-80"></div>
+    <div id="upload-results"></div>
   </body>
   <script type="text/javascript" src="js/scripts.js"></script>
 </html>

@@ -13,7 +13,14 @@ $(document).ready(function(){
 
   fileField.on("change", function(event) {
     file = this.files[0];
+    uploadFile(file);
+  });
 
+  fileFieldDesc.click(function(){
+    fileField.click();
+  });
+
+  function uploadFile(file) {
     if (!!file.type.match(/image.*/)) {
       if (window.FileReader) {
         var reader = new FileReader();
@@ -40,11 +47,17 @@ $(document).ready(function(){
         });
       }
     }
-  });
+  }
 
-  fileFieldDesc.click(function(){
-    fileField.click();
-  });
+  document.onpaste = function(event){
+    var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+    for (var i = 0; i < items.length; i++) {
+      var item = items[i];
+      if (item.kind === 'file') {
+        uploadFile(item.getAsFile());
+      }
+    }
+  };
 
 });
 
