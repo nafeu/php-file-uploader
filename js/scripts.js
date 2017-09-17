@@ -63,6 +63,16 @@ $(document).ready(function(){
 
 function createUiResponse(content) {
   var out = $("<div>", {class: "ui-response"});
-  out.text(content);
+  var thumbnail = $("<div>", {
+    class: "thumbnail",
+    onclick: "window.open('" + content + "', '_blank');"
+  });
+  var descContainer = $("<div>", {class: "upload-desc-container"});
+  var desc = $("<div>", {class: "upload-desc"});
+  thumbnail.css("background", "url(" + content + ")");
+  desc.text(content);
+  descContainer.append(desc);
+  out.append(thumbnail);
+  out.append(descContainer);
   return out;
 }

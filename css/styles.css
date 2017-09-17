@@ -36,7 +36,7 @@ body {
   border-color: #f1c40f;
 }
 
-#upload-results {
+#upload-results, .upload-desc-container {
   width: 80%;
   display: inline-block;
 }
@@ -56,7 +56,21 @@ body {
   padding: 15px;
   box-sizing: border-box;
   border: 1px solid white;
-  font-size: 1.2em;
   margin: 0px 15px 15px 15px;
   overflow: auto;
+}
+
+.thumbnail {
+  float: left;
+  display: inline-block;
+  width: 20%;
+  min-height: 100px;
+  background-size: contain;
+  cursor: pointer;
+}
+
+.upload-desc {
+  padding-left: 10px;
+  font-size: 1.2em;
+  word-wrap: break-word;
 }
