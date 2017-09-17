@@ -5,12 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>PHP File Uploader</title>
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
   </head>
   <body>
-    <form action="upload.php" method="post" enctype="multipart/form-data">
-        Select image to upload:
-        <input type="file" name="file-to-upload">
-        <input type="submit" value="Upload Image" name="submit">
+    <form id="file-form" action="upload.php" method="post" enctype="multipart/form-data">
+      <input id="file-field" type="file" name="file">
     </form>
   </body>
+  <script type="text/javascript" src="js/scripts.js"></script>
 </html>
