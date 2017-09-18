@@ -76,5 +76,8 @@ body {
 
 .upload-desc {
   padding-left: 10px;
-  font-size: 1.2em;
+}
+
+.upload-url {
+  font-size: 1em;
 }

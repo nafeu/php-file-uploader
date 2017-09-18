@@ -21,30 +21,33 @@ $(document).ready(function(){
   });
 
   function uploadFile(file) {
-    if (!!file.type.match(/image.*/)) {
-      if (window.FileReader) {
-        var reader = new FileReader();
-        reader.readAsDataURL(file);
-      }
+    if (file) {
+      if (!!file.type.match(/image.*/)) {
+        if (window.FileReader) {
+          var reader = new FileReader();
+          reader.readAsDataURL(file);
+        }
 
-      if (formData) {
-        formData.append("file", file);
-      }
+        if (formData) {
+          formData.append("file", file);
+          // formData.append("prefix", prefix);
+        }
 
-      if (formData) {
-        $.ajax({
-          url: "upload.php",
-          type: "POST",
-          data: formData,
-          processData: false,
-          contentType: false,
-          success: function(response) {
-            uploadResults.append(createUiResponse(response).hide().fadeIn(500));
-          },
-          error: function(response) {
-            uploadResults.append(createUiResponse(response.statusText).hide().fadeIn(500));
-          }
-        });
+        if (formData) {
+          $.ajax({
+            url: "upload.php",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+              uploadResults.append(createUiResponse(response).hide().fadeIn(500));
+            },
+            error: function(response) {
+              uploadResults.append(createUiResponse(response.statusText).hide().fadeIn(500));
+            }
+          });
+        }
       }
     }
   }
