@@ -69,7 +69,7 @@ function createUiResponse(content) {
   });
   var descContainer = $("<div>", {class: "upload-desc-container"});
   var desc = $("<div>", {class: "upload-desc"});
-  thumbnail.css("background", "url(" + content + ")");
+  thumbnail.css("background-image", "url(" + content + ")");
   desc.text(content);
   descContainer.append(desc);
   out.append(thumbnail);

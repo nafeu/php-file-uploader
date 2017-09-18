@@ -32,7 +32,7 @@ body {
   z-index: 5;
 }
 
-#file-field:hover {
+#file-field:hover, .thumbnail:hover {
   border-color: #f1c40f;
 }
 
@@ -66,11 +66,15 @@ body {
   width: 20%;
   min-height: 100px;
   background-size: contain;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-sizing: border-box;
   cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: 200ms ease-in-out border-color;
 }
 
 .upload-desc {
   padding-left: 10px;
   font-size: 1.2em;
-  word-wrap: break-word;
 }
