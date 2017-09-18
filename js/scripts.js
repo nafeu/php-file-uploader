@@ -42,7 +42,6 @@ $(document).ready(function(){
         }
 
         if (formData) {
-          body.css("background-color", colors.processing);
           fileFieldDesc.text("Uploading...");
           $.ajax({
             url: "upload.php",
@@ -51,13 +50,11 @@ $(document).ready(function(){
             processData: false,
             contentType: false,
             success: function(response) {
-              rotateBgColor(body, colors.success, colors.idle);
-              uploadResults.append(createUiResponse(response).hide().fadeIn(500));
+              uploadResults.prepend(createUiResponse(response, true).hide().fadeIn(500));
               fileFieldDesc.text(fileFieldDescDefault);
             },
             error: function(response) {
-              rotateBgColor(body, colors.error, colors.idle);
-              uploadResults.append(createUiResponse(response.statusText).hide().fadeIn(500));
+              uploadResults.prepend(createUiResponse(response.statusText, false).hide().fadeIn(500));
               fileFieldDesc.text(fileFieldDescDefault);
             }
           });
@@ -76,16 +73,9 @@ $(document).ready(function(){
     }
   };
 
-  function rotateBgColor(element, newColor, defaultColor) {
-    element.css("background-color", newColor);
-    setTimeout(function(){
-      element.css("background-color", defaultColor);
-    }, 2000);
-  }
-
 });
 
-function createUiResponse(content) {
+function createUiResponse(content, validUpload) {
   var out = $("<div>", {class: "ui-response"});
   var thumbnail = $("<div>", {
     class: "thumbnail",
@@ -96,7 +86,9 @@ function createUiResponse(content) {
   thumbnail.css("background-image", "url(" + content + ")");
   desc.text(content);
   descContainer.append(desc);
-  out.append(thumbnail);
+  if (validUpload) {
+    out.append(thumbnail);
+  }
   out.append(descContainer);
   return out;
 }
