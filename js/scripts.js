@@ -5,7 +5,15 @@ $(document).ready(function(){
       uploadResults = $("#upload-results"),
       fileField = $("#file-field"),
       fileFieldDesc = $("#file-field-desc"),
+      fileFieldDescDefault = fileFieldDesc.text(),
       formData = false;
+
+  var colors = {
+    processing: "#607D8A",
+    idle: "#22313F",
+    error: "#96281B",
+    success: "#336E7B"
+  };
 
   if (window.FormData) {
     formData = new FormData();
@@ -34,6 +42,8 @@ $(document).ready(function(){
         }
 
         if (formData) {
+          body.css("background-color", colors.processing);
+          fileFieldDesc.text("Uploading...");
           $.ajax({
             url: "upload.php",
             type: "POST",
@@ -41,10 +51,14 @@ $(document).ready(function(){
             processData: false,
             contentType: false,
             success: function(response) {
+              rotateBgColor(body, colors.success, colors.idle);
               uploadResults.append(createUiResponse(response).hide().fadeIn(500));
+              fileFieldDesc.text(fileFieldDescDefault);
             },
             error: function(response) {
+              rotateBgColor(body, colors.error, colors.idle);
               uploadResults.append(createUiResponse(response.statusText).hide().fadeIn(500));
+              fileFieldDesc.text(fileFieldDescDefault);
             }
           });
         }
@@ -61,6 +75,13 @@ $(document).ready(function(){
       }
     }
   };
+
+  function rotateBgColor(element, newColor, defaultColor) {
+    element.css("background-color", newColor);
+    setTimeout(function(){
+      element.css("background-color", defaultColor);
+    }, 2000);
+  }
 
 });
 
