@@ -91,12 +91,20 @@ function createUiResponse(content, validUpload, source) {
   });
   var timestamp = $("<div>", {class: "timestamp"}).text(Date(Number(Date.now())));
   var descContainer = $("<div>", {class: "upload-desc-container"});
-  var desc = $("<div>", {class: "upload-desc"}).text(content);
+  var responseMessage = $("<div>", {class: "upload-response-message"}).text(content);
   var uploadSource = $("<div>", {class: "upload-source"}).text(source);
+
+  responseMessage.on('click', function(){
+    copyToClipboard(content);
+    responseMessage.text("Copied to clipboard.");
+    setTimeout(function(){
+      responseMessage.text(content);
+    }, 500);
+  });
 
   thumbnail.css("background-image", "url(" + content + ")");
 
-  descContainer.append(desc);
+  descContainer.append(responseMessage);
 
   out.append(timestamp);
   if (validUpload) {
@@ -107,4 +115,12 @@ function createUiResponse(content, validUpload, source) {
   }
   out.append(descContainer);
   return out;
+}
+
+function copyToClipboard(content) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val(content).select();
+  document.execCommand("copy");
+  $temp.remove();
 }

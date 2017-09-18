@@ -92,8 +92,12 @@ body {
   text-decoration: underline;
 }
 
-.upload-desc, .upload-source {
+.upload-response-message, .upload-source {
   padding-left: 10px;
+}
+
+.upload-response-message:hover {
+  cursor: pointer;
 }
 
 .upload-url {
