@@ -8,6 +8,7 @@ $file_extension = pathinfo($target_path,PATHINFO_EXTENSION);
 $file_size_limit = 500000;
 $upload_status = true;
 $unique_id_length = 6;
+$output = Array("data" => null, "error" => null);
 
 while (true) {
     $unique_id = generate_random_key($unique_id_length);
@@ -21,18 +22,18 @@ if (isset($_POST["submit"])) {
     $file_is_image = getimagesize($_FILES["file"]["tmp_name"]);
     if (!$file_is_image) {
         $upload_status = false;
-        header("HTTP/ 400 File is not an image.");
+        $output["error"] = "File format not supported. Must be an image.";
     }
 }
 
 if (file_exists($target_path)) {
     $upload_status = false;
-    header("HTTP/ 400 File already exists.");
+    $output["error"] = "File already exists.";
 }
 
 if ($_FILES["file"]["size"] > $file_size_limit) {
     $upload_status = false;
-    header("HTTP/ 400 File is too large in size, must be no more than 0.5MB");
+    $output["error"] = "File is too large in size, must be no more than 0.5MB";
 }
 
 if ($file_extension != "jpg"
@@ -40,18 +41,19 @@ if ($file_extension != "jpg"
     && $file_extension != "jpeg"
     && $file_extension != "gif") {
     $upload_status = false;
-    header("HTTP/ 400 Image format not supported.");
+    $output["error"] = "Image format not supported.";
 }
 
 if ($upload_status) {
     if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_path)) {
-        http_response_code(200);
-        $output = $host_url . $target_path;
-        echo $output;
-    } else {
-        header("HTTP/ 500 There was an error uploading your file");
+        $output["data"] = $host_url . $target_path;
     }
 }
+
+header('Content-Type: application/json');
+echo json_encode($output);
+
+// Helpers
 
 function generate_random_key($length) {
     $pool = array_merge(range(0,9), range('a', 'z'),range('A', 'Z'));

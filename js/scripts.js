@@ -8,13 +8,6 @@ $(document).ready(function(){
       fileFieldDescDefault = fileFieldDesc.text(),
       formData = false;
 
-  var colors = {
-    processing: "#607D8A",
-    idle: "#22313F",
-    error: "#96281B",
-    success: "#336E7B"
-  };
-
   if (window.FormData) {
     formData = new FormData();
   }
@@ -50,20 +43,15 @@ $(document).ready(function(){
             processData: false,
             contentType: false,
             success: function(response) {
-              uploadResults.prepend(
-                createUiResponse(response, true, source)
-                  .hide()
-                  .fadeIn(500)
-              );
-              fileFieldDesc.text(fileFieldDescDefault);
+              if (response.error) {
+                pushUploadResult(response.error, false, source);
+              }
+              if (response.data) {
+                pushUploadResult(response.data, true, source);
+              }
             },
             error: function(response) {
-              uploadResults.prepend(
-                createUiResponse(response.statusText, false, source)
-                  .hide()
-                  .fadeIn(500)
-              );
-              fileFieldDesc.text(fileFieldDescDefault);
+              pushUploadResult(response.statusText, false, source);
             }
           });
         }
@@ -80,6 +68,15 @@ $(document).ready(function(){
       }
     }
   };
+
+  function pushUploadResult(message, status, source) {
+    uploadResults.prepend(
+      createUiResponse(message, status, source)
+        .hide()
+        .fadeIn(500)
+    );
+    fileFieldDesc.text(fileFieldDescDefault);
+  }
 
 });
 
