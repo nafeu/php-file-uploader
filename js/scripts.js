@@ -21,14 +21,14 @@ $(document).ready(function(){
 
   fileField.on("change", function(event) {
     file = this.files[0];
-    uploadFile(file);
+    uploadFile(file, file.name);
   });
 
   fileFieldDesc.click(function(){
     fileField.click();
   });
 
-  function uploadFile(file) {
+  function uploadFile(file, source) {
     if (file) {
       if (!!file.type.match(/image.*/)) {
         if (window.FileReader) {
@@ -50,11 +50,19 @@ $(document).ready(function(){
             processData: false,
             contentType: false,
             success: function(response) {
-              uploadResults.prepend(createUiResponse(response, true).hide().fadeIn(500));
+              uploadResults.prepend(
+                createUiResponse(response, true, source)
+                  .hide()
+                  .fadeIn(500)
+              );
               fileFieldDesc.text(fileFieldDescDefault);
             },
             error: function(response) {
-              uploadResults.prepend(createUiResponse(response.statusText, false).hide().fadeIn(500));
+              uploadResults.prepend(
+                createUiResponse(response.statusText, false, source)
+                  .hide()
+                  .fadeIn(500)
+              );
               fileFieldDesc.text(fileFieldDescDefault);
             }
           });
@@ -68,25 +76,33 @@ $(document).ready(function(){
     for (var i = 0; i < items.length; i++) {
       var item = items[i];
       if (item.kind === 'file') {
-        uploadFile(item.getAsFile());
+        uploadFile(item.getAsFile(), "Clipboard");
       }
     }
   };
 
 });
 
-function createUiResponse(content, validUpload) {
+function createUiResponse(content, validUpload, source) {
   var out = $("<div>", {class: "ui-response"});
   var thumbnail = $("<div>", {
     class: "thumbnail",
     onclick: "window.open('" + content + "', '_blank');"
   });
+  var timestamp = $("<div>", {class: "timestamp"}).text(Date(Number(Date.now())));
   var descContainer = $("<div>", {class: "upload-desc-container"});
-  var desc = $("<div>", {class: "upload-desc"});
+  var desc = $("<div>", {class: "upload-desc"}).text(content);
+  var uploadSource = $("<div>", {class: "upload-source"}).text(source);
+
   thumbnail.css("background-image", "url(" + content + ")");
-  desc.text(content);
+
   descContainer.append(desc);
+
+  out.append(timestamp);
   if (validUpload) {
+    descContainer.prepend($("<div>", {class: "label"}).text("Storage URL:"));
+    descContainer.append($("<div>", {class: "label"}).text("Source:"));
+    descContainer.append(uploadSource);
     out.append(thumbnail);
   }
   out.append(descContainer);

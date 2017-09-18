@@ -77,7 +77,22 @@ body {
   transition: 200ms ease-in-out border-color;
 }
 
-.upload-desc {
+.timestamp {
+  width: 100%;
+  margin-bottom: 5px;
+  font-size: 0.5em;
+  color: #f1c40f;
+}
+
+.label {
+  margin-left: 10px;
+  margin-bottom: 0;
+  margin-top: 10px;
+  font-size: 0.7em;
+  text-decoration: underline;
+}
+
+.upload-desc, .upload-source {
   padding-left: 10px;
 }
 
