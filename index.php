@@ -10,11 +10,12 @@
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
   </head>
   <body>
-    <div id="header">
-      <div class="header-block bg-a">Simple Image Uploader</div>
-      <div id="mode-button" class="header-block pointer bg-b">Mode: URL</div>
-      <div class="header-block bg-c">Class: <input id="class-field" type="text"></input></div>
-      <div class="header-block bg-d">Prefix: <input id="prefix-field" type="text"></input></div>
+
+    <div id="options">
+      <div class="option-block bg-a">Token: <input id="token-field" type="password"></input></div>
+      <div class="option-block bg-b">Class: <input id="class-field" type="text"></input></div>
+      <div class="option-block bg-c">Prefix: <input id="prefix-field" type="text"></input></div>
+      <div id="mode-button" class="option-block pointer bg-d">Mode: URL</div>
     </div>
     <div id="form-container">
       <div id="file-field-desc">Drag images in here, click to upload or paste from clipboard.</div>

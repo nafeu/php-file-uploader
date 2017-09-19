@@ -1,12 +1,14 @@
 <?php
 
 $configs = include('config.php');
+$auth_token = $_POST['auth_token'];
 $base_url = $configs['base_url'];
 $prefix = (isset($_POST['prefix']) ? $_POST['prefix'] : $configs['default_prefix']);
 $target_directory = $configs["upload_directory"];
 $temp_file = $_FILES["file"]["tmp_name"];
 $file_extension = get_extension(basename($_FILES["file"]["name"]));
 $file_size_limit = $configs['file_size_limit'];
+$file_is_image = getimagesize($temp_file);
 $upload_status = true;
 $unique_id_length = 6;
 $output = Array("data" => null, "error" => null);
@@ -15,19 +17,18 @@ while (true) {
     $unique_id = generate_random_key($unique_id_length);
     $target_path = $target_directory . $prefix . $unique_id . "." . $file_extension;
     if (!file_exists($target_path)) {
-        error_log($target_path);
-        error_log("File does not exist at this path...");
         break;
     }
 }
 
+if ($auth_token != $configs['auth_token']) {
+    $upload_status = false;
+    $output["error"] = "Invalid authorization token.";
+}
 
-if (isset($_POST["submit"])) {
-    $file_is_image = getimagesize($temp_file);
-    if (!$file_is_image) {
-        $upload_status = false;
-        $output["error"] = "File format not supported. Must be an image.";
-    }
+if (!$file_is_image) {
+    $upload_status = false;
+    $output["error"] = "File format not supported. Must be an image.";
 }
 
 if (file_exists($target_path)) {

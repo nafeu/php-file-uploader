@@ -163,15 +163,15 @@ body {
   font-size: 1em;
 }
 
-#header {
+#options {
   width: 100%;
 }
 
-#header h1 {
+#options h1 {
   font-size: 1.5em;
 }
 
-.header-block {
+.option-block {
   border-radius: 5px;
   padding: 8px 10px 8px 10px;
   margin: 0px 0px 10px 0px;
@@ -180,21 +180,27 @@ body {
   color: #462446;
 }
 
-#class-field, #prefix-field {
+#class-field, #prefix-field, #token-field {
   border-width: 0px;
   border-radius: 5px;
   border: none;
   background-color: #462446;
-  color: #FFC153;
   width: 150px;
   padding: 0px 5px 0px 5px;
   font-size: 1em;
   font-family: "Roboto Mono", sans-serif;
 }
 
+#token-field {
+  color: #B05F6D;
+}
+
+#class-field {
+  color: #EB6B56;
+}
+
 #prefix-field {
-  background-color: #462446;
-  color: #47B39D;
+  color: #FFC153;
 }
 
 .bg-a {

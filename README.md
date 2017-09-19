@@ -24,7 +24,15 @@ cd php-file-uploader
 cp sample-config.php config.php
 ```
 
-Open `config.php` in your editor of choice and adjust the config variables accordingly. Then after you are done, run a PHP development server with:
+Open `config.php` in your editor of choice and adjust the config variables accordingly.
+
+For `authentication_token`, I would recommend generating a token. You can use an online tool like [RandomKeygen](https://randomkeygen.com/) or just do it in your command line (Check out [this](https://www.howtogeek.com/howto/30184/10-ways-to-generate-a-random-password-from-the-command-line/) article for details). If you have `openssl` installed, then you can do:
+
+```
+openssl rand -base64 32
+```
+
+Save the returned token in your `config.php` and make sure to save it somewhere else for your own access. This token will allow you to upload files. Now you can start up a PHP development server with:
 
 ```
 php -S localhost:8000
@@ -32,7 +40,7 @@ php -S localhost:8000
 
 Where `localhost:8000` matches the `base_url` value of `http://localhost:8000` in `config.php`.
 
-Now you can access `http://localhost:8000` to quickly upload an image (either by pasting from clipboard, dragging and dropping from a file browser or clicking to upload) and use the returned URL, formatted html `img` tag or markdown image in a separate project.
+Now you can access `http://localhost:8000`, input the authentication token and, begin uploading images (either by pasting from clipboard, dragging and dropping from a file browser or clicking to upload) and use the returned URL, formatted html `img` tag or markdown image in a separate project.
 
 ### Deployment
 

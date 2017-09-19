@@ -7,6 +7,7 @@ var body = $("body"),
     fileField = $("#file-field"),
     fileFieldDesc = $("#file-field-desc"),
     fileFieldDescDefault = fileFieldDesc.text(),
+    tokenField = $("#token-field"),
     modeButton = $("#mode-button"),
     classField = $("#class-field"),
     prefixField = $("#prefix-field"),
@@ -36,12 +37,15 @@ var modeFactory = {
     }
     modeButton.text("Mode: " + this.getMode());
   },
-  getModeElement: function(content) {
-    if (this.getMode() == "IMG") {
-      return this.createImageElement(content);
-    }
-    if (this.getMode() == "MD") {
-      return this.createMdElement(content);
+  getModeElement: function(content, status) {
+    if (status) {
+      if (this.getMode() == "IMG") {
+        return this.createImageElement(content);
+      }
+      if (this.getMode() == "MD") {
+        return this.createMdElement(content);
+      }
+      return content;
     }
     return content;
   },
@@ -110,6 +114,7 @@ function uploadFile(file, source) {
       }
 
       if (formData) {
+        formData.append("auth_token", tokenField.val());
         formData.append("file", file);
         if (prefixField.val().length > 0) {
           formData.append("prefix", prefixField.val());
@@ -150,7 +155,7 @@ function pushUploadResult(message, status, source) {
   fileFieldDesc.text(fileFieldDescDefault);
 }
 
-function createUiResponse(content, validUpload, source) {
+function createUiResponse(content, status, source) {
   var out = $("<div>", {class: "ui-response"});
   var thumbnail = $("<div>", {
     class: "thumbnail",
@@ -158,7 +163,7 @@ function createUiResponse(content, validUpload, source) {
   });
   var timestamp = $("<div>", {class: "timestamp"}).text(Date(Number(Date.now())));
   var descContainer = $("<div>", {class: "upload-desc-container"});
-  var responseMessage = $("<div>", {class: "upload-response-message"}).text(modeFactory.getModeElement(content));
+  var responseMessage = $("<div>", {class: "upload-response-message"}).text(modeFactory.getModeElement(content, status));
   var uploadSource = $("<div>", {class: "upload-source"}).text(source);
 
   responseMessage.on('click', function(){
@@ -175,7 +180,7 @@ function createUiResponse(content, validUpload, source) {
   descContainer.append(responseMessage);
 
   out.append(timestamp);
-  if (validUpload) {
+  if (status === true) {
     descContainer.prepend($("<div>", {class: "label"}).text(modeFactory.getModeLabel()));
     descContainer.append($("<div>", {class: "label"}).text("Source:"));
     descContainer.append(uploadSource);
