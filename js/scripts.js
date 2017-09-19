@@ -18,6 +18,41 @@ if (window.FormData) {
   formData = new FormData();
 }
 
+var modeFactory = {
+  currentModeIndex: 0,
+  modes: ["URL", "IMG", "MD"],
+  modeLabels: ["Storage URL", "Image Element", "Markdown Element"],
+  getMode: function(){
+    return this.modes[this.currentModeIndex];
+  },
+  getModeLabel: function(){
+    return this.modeLabels[this.currentModeIndex];
+  },
+  cycleMode: function(){
+    if (this.currentModeIndex != this.modes.length - 1) {
+      this.currentModeIndex++;
+    } else {
+      this.currentModeIndex = 0;
+    }
+    modeButton.text("Mode: " + this.getMode());
+  },
+  getModeElement: function(content) {
+    if (this.getMode() == "IMG") {
+      return this.createImageElement(content);
+    }
+    if (this.getMode() == "MD") {
+      return this.createMdElement(content);
+    }
+    return content;
+  },
+  createImageElement: function(content) {
+    return "<img src='" + content + "'/>";
+  },
+  createMdElement: function(content) {
+    return "![](" + content + ")";
+  }
+};
+
 // ---------------------------------------------------------------------------
 // Application Logic
 // ---------------------------------------------------------------------------
@@ -29,6 +64,10 @@ fileField.css('padding-top', $(window).height() - windowHeightOffset);
 // ---------------------------------------------------------------------------
 // Event Handlers
 // ---------------------------------------------------------------------------
+
+modeButton.click(function(){
+  modeFactory.cycleMode();
+});
 
 fileField.on("change", function(event) {
   file = this.files[0];
@@ -114,14 +153,15 @@ function createUiResponse(content, validUpload, source) {
   });
   var timestamp = $("<div>", {class: "timestamp"}).text(Date(Number(Date.now())));
   var descContainer = $("<div>", {class: "upload-desc-container"});
-  var responseMessage = $("<div>", {class: "upload-response-message"}).text(content);
+  var responseMessage = $("<div>", {class: "upload-response-message"}).text(modeFactory.getModeElement(content));
   var uploadSource = $("<div>", {class: "upload-source"}).text(source);
 
   responseMessage.on('click', function(){
-    copyToClipboard(content);
+    var originalContent = $(this).text();
+    copyToClipboard(originalContent);
     responseMessage.text("Copied to clipboard.");
     setTimeout(function(){
-      responseMessage.text(content);
+      responseMessage.text(originalContent);
     }, 500);
   });
 
@@ -131,7 +171,7 @@ function createUiResponse(content, validUpload, source) {
 
   out.append(timestamp);
   if (validUpload) {
-    descContainer.prepend($("<div>", {class: "label"}).text("Storage URL:"));
+    descContainer.prepend($("<div>", {class: "label"}).text(modeFactory.getModeLabel()));
     descContainer.append($("<div>", {class: "label"}).text("Source:"));
     descContainer.append(uploadSource);
     out.append(thumbnail);
