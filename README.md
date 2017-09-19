@@ -1,8 +1,8 @@
-# PHP File Uploader
+# Pseudo Storage
 
-A simple PHP file uploader for dev use only. Built to provide a CDN-like file storage solution during a separate application's development.
+A simple PHP based image uploader for dev use only. Built to provide a temporary CDN-like image storage solution to assist in testing or developing a separate application.
 
-**Warning:** not neccessarily secure, use with caution.
+**Warning:** Quite safe for local development, not neccessarily secure on a production site, use with caution.
 
 ### Features
 

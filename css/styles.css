@@ -62,6 +62,7 @@ body {
   color: #EB6B56;
   font-family: "Roboto Mono", sans-serif;
   margin: 40px;
+  margin-top: 20px;
   transition: 1000ms ease-in-out background-color;
 }
 
@@ -221,4 +222,16 @@ body {
 
 .pointer {
   cursor: pointer;
+}
+
+.title {
+  margin-bottom: 10px;
+  font-size: 1.7em;
+  letter-spacing: 4px;
+  color: #FFC153;
+}
+
+.title-desc {
+  font-size: 0.4em;
+  color: #EB6B56;
 }

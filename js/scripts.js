@@ -16,7 +16,7 @@ modeButton = $("#mode-button");
 classField = $("#class-field");
 prefixField = $("#prefix-field");
 formData = false;
-windowHeightOffset = 140;
+windowHeightOffset = 150;
 hiddenInputOffset = 20;
 
 appData = {
