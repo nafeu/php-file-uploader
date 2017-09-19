@@ -6,7 +6,7 @@ $prefix = (isset($_POST['prefix']) ? $_POST['prefix'] : $configs['default_prefix
 $target_directory = $configs["upload_directory"];
 $temp_file = $_FILES["file"]["tmp_name"];
 $file_extension = get_extension(basename($_FILES["file"]["name"]));
-$file_size_limit = 2000000; // 2mb
+$file_size_limit = $configs['file_size_limit'];
 $upload_status = true;
 $unique_id_length = 6;
 $output = Array("data" => null, "error" => null);
