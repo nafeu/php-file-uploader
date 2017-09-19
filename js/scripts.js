@@ -6,7 +6,10 @@ $(document).ready(function(){
       fileField = $("#file-field"),
       fileFieldDesc = $("#file-field-desc"),
       fileFieldDescDefault = fileFieldDesc.text(),
-      formData = false;
+      formData = false,
+      windowHeightOffset = 140,
+      hiddenInputOffset = 20;
+
 
   if (window.FormData) {
     formData = new FormData();
@@ -77,6 +80,15 @@ $(document).ready(function(){
     );
     fileFieldDesc.text(fileFieldDescDefault);
   }
+
+  uploadResults.css('height', $(window).height() - windowHeightOffset);
+  fileField.css('height', $(window).height() - (windowHeightOffset + hiddenInputOffset));
+  fileField.css('padding-top', $(window).height() - windowHeightOffset);
+  $(window).resize(function(){
+      uploadResults.css('height', $(window).height() - windowHeightOffset);
+      fileField.css('height', $(window).height() - (windowHeightOffset + hiddenInputOffset));
+      fileField.css('padding-top', $(window).height() - windowHeightOffset);
+  });
 
 });
 

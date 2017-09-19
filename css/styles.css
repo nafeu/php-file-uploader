@@ -1,6 +1,6 @@
 body {
-  background-color: #22313F;
-  color: #ecf0f1;
+  background-color: #462446;
+  color: #EB6B56;
   font-family: "Roboto Mono", sans-serif;
   margin: 40px;
   transition: 1000ms ease-in-out background-color;
@@ -19,27 +19,26 @@ body {
 
 #file-field {
   width: 100%;
-  padding-top: 420px;
-  height: 400px;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   background-size: 150px 100px;
-  border: 1px solid #ecf0f1;
+  border: 1px solid #EB6B56;
   border-radius: 5px;
   overflow: hidden;
   cursor: pointer;
-  transition: 200ms ease-in-out all;
+  transition: 200ms ease-in-out border-color;
   z-index: 5;
 }
 
 #file-field:hover, .thumbnail:hover {
-  border-color: #f1c40f;
+  border-color: #FFC153;
 }
 
 #upload-results, .upload-desc-container {
   width: 80%;
   display: inline-block;
+  overflow: auto;
 }
 
 #file-field-desc {
@@ -56,8 +55,8 @@ body {
   height: auto;
   padding: 15px;
   box-sizing: border-box;
-  border: 1px solid #ecf0f1;
-  margin: 0px 15px 15px 15px;
+  border: 1px solid #EB6B56;
+  margin: 0px 15px 15px 12px;
   overflow: auto;
 }
 
@@ -81,7 +80,7 @@ body {
   width: 100%;
   margin-bottom: 5px;
   font-size: 0.5em;
-  color: #f1c40f;
+  color: #FFC153;
 }
 
 .label {
@@ -94,6 +93,7 @@ body {
 
 .upload-response-message, .upload-source {
   padding-left: 10px;
+  color: #FFC153;
 }
 
 .upload-response-message:hover {
@@ -102,4 +102,58 @@ body {
 
 .upload-url {
   font-size: 1em;
+}
+
+#header {
+  width: 100%;
+}
+
+#header h1 {
+  font-size: 1.5em;
+}
+
+.header-block {
+  border-radius: 5px;
+  padding: 8px 10px 8px 10px;
+  margin: 0px 0px 10px 0px;
+  font-size: 1.25em;
+  display: inline-block;
+  color: #462446;
+}
+
+#class-field, #prefix-field {
+  border-width: 0px;
+  border-radius: 5px;
+  border: none;
+  background-color: #462446;
+  color: #FFC153;
+  width: 150px;
+  padding: 0px 5px 0px 5px;
+  font-size: 1em;
+  font-family: "Roboto Mono", sans-serif;
+}
+
+#prefix-field {
+  background-color: #462446;
+  color: #47B39D;
+}
+
+.bg-a {
+  background-color: #B05F6D;
+}
+
+.bg-b {
+  background-color: #EB6B56;
+}
+
+.bg-c {
+  background-color: #FFC153;
+}
+
+.bg-d {
+  background-color: #47B39D;
+}
+
+.pointer {
+  cursor: pointer;
 }
