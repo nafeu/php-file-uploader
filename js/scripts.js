@@ -1,25 +1,36 @@
+var body, uploadResults, fileField, fileFieldDesc, fileFieldDefault,
+    tokenField, modeButton, classField, prefixField, formData,
+    windowHeightOffset, hiddenInputOffset, appData, modeFactory;
+
 // ---------------------------------------------------------------------------
 $(document).ready(function(){ // Document Ready: Start
 // ---------------------------------------------------------------------------
 
-var body = $("body"),
-    uploadResults = $("#upload-results"),
-    fileField = $("#file-field"),
-    fileFieldDesc = $("#file-field-desc"),
-    fileFieldDescDefault = fileFieldDesc.text(),
-    tokenField = $("#token-field"),
-    modeButton = $("#mode-button"),
-    classField = $("#class-field"),
-    prefixField = $("#prefix-field"),
-    formData = false,
-    windowHeightOffset = 140,
-    hiddenInputOffset = 20;
+body = $("body");
+uploadResults = $("#upload-results");
+fileField = $("#file-field");
+fileFieldDesc = $("#file-field-desc");
+fileFieldDescDefault = fileFieldDesc.text();
+tokenField = $("#token-field");
+modeButton = $("#mode-button");
+classField = $("#class-field");
+prefixField = $("#prefix-field");
+formData = false;
+windowHeightOffset = 140;
+hiddenInputOffset = 20;
+
+appData = {
+  token: "",
+  class: "storage",
+  prefix: "storage_",
+  mode: 0
+};
 
 if (window.FormData) {
   formData = new FormData();
 }
 
-var modeFactory = {
+modeFactory = {
   currentModeIndex: 0,
   modes: ["URL", "IMG", "MD"],
   modeLabels: ["Storage URL", "Image Element", "Markdown Element"],
@@ -36,6 +47,12 @@ var modeFactory = {
       this.currentModeIndex = 0;
     }
     modeButton.text("Mode: " + this.getMode());
+  },
+  setMode: function(index) {
+    if (index < this.modes.length) {
+      this.currentModeIndex = index;
+      modeButton.text("Mode: " + this.getMode());
+    }
   },
   getModeElement: function(content, status) {
     if (status) {
@@ -64,6 +81,13 @@ var modeFactory = {
 // Application Logic
 // ---------------------------------------------------------------------------
 
+loadData();
+
+tokenField.val(appData.token);
+classField.val(appData.class);
+prefixField.val(appData.prefix);
+modeFactory.setMode(appData.mode);
+
 uploadResults.css('height', $(window).height() - windowHeightOffset);
 fileField.css('height', $(window).height() - (windowHeightOffset + hiddenInputOffset));
 fileField.css('padding-top', $(window).height() - windowHeightOffset);
@@ -71,6 +95,21 @@ fileField.css('padding-top', $(window).height() - windowHeightOffset);
 // ---------------------------------------------------------------------------
 // Event Handlers
 // ---------------------------------------------------------------------------
+
+tokenField.on("change paste keyup", function(event) {
+  appData.token = $(this).val();
+  saveData(appData);
+});
+
+classField.on("change paste keyup", function(event) {
+  appData.class = $(this).val();
+  saveData(appData);
+});
+
+prefixField.on("change paste keyup", function(event) {
+  appData.prefix = $(this).val();
+  saveData(appData);
+});
 
 modeButton.click(function(){
   modeFactory.cycleMode();
@@ -196,6 +235,18 @@ function copyToClipboard(content) {
   $temp.val(content).select();
   document.execCommand("copy");
   $temp.remove();
+}
+
+function saveData() {
+  window.localStorage.setItem("appData", JSON.stringify(appData));
+}
+
+function loadData() {
+  if (window.localStorage.getItem("appData") !== null) {
+    appData = JSON.parse(window.localStorage.getItem("appData"));
+    return true;
+  }
+  return false;
 }
 
 // ---------------------------------------------------------------------------
