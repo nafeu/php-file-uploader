@@ -1,10 +1,11 @@
 <?php
 
-$host_url = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]/";
-$prefix = (isset($_POST['prefix']) ? $_POST['prefix'] : "storage_");
-$target_directory = "uploads/";
-$target_path = $target_directory . basename($_FILES["file"]["name"]);
-$file_extension = pathinfo($target_path,PATHINFO_EXTENSION);
+$configs = include('config.php');
+$base_url = $configs['base_url'];
+$prefix = (isset($_POST['prefix']) ? $_POST['prefix'] : $configs['default_prefix']);
+$target_directory = $configs["upload_directory"];
+$temp_file = $_FILES["file"]["tmp_name"];
+$file_extension = get_extension(basename($_FILES["file"]["name"]));
 $file_size_limit = 500000;
 $upload_status = true;
 $unique_id_length = 6;
@@ -14,12 +15,15 @@ while (true) {
     $unique_id = generate_random_key($unique_id_length);
     $target_path = $target_directory . $prefix . $unique_id . "." . $file_extension;
     if (!file_exists($target_path)) {
+        error_log($target_path);
+        error_log("File does not exist at this path...");
         break;
     }
 }
 
+
 if (isset($_POST["submit"])) {
-    $file_is_image = getimagesize($_FILES["file"]["tmp_name"]);
+    $file_is_image = getimagesize($temp_file);
     if (!$file_is_image) {
         $upload_status = false;
         $output["error"] = "File format not supported. Must be an image.";
@@ -45,8 +49,8 @@ if ($file_extension != "jpg"
 }
 
 if ($upload_status) {
-    if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_path)) {
-        $output["data"] = $host_url . $target_path;
+    if (move_uploaded_file($temp_file, $target_path)) {
+        $output["data"] = $base_url . $target_path;
     }
 }
 
@@ -62,6 +66,11 @@ function generate_random_key($length) {
         $key .= $pool[mt_rand(0, count($pool) - 1)];
     }
     return $key;
+}
+
+function get_extension($file_name) {
+     $extension = end(explode(".", $file_name));
+     return $extension ? $extension : false;
 }
 
 ?>
