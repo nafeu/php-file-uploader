@@ -1,6 +1,8 @@
-# Pseudo Storage
+<h1><img src="http://phrakture.com/images/github/pseudo-storage-icon-updated.png" width="72" height="72" valign="middle"/>pseudo-storage</h1>
 
 A simple PHP based image uploader for dev use only. Built to provide a temporary CDN-like image storage solution to assist in testing or developing a separate application.
+
+<img alt="GRYT Skill Tracker Screenshot" src="http://phrakture.com/images/github/pseudo-storage-screenshot.png" width="400" valign="middle"/>
 
 **Warning:** Quite safe for local development, not neccessarily secure on a production site, use with caution.
 
@@ -19,8 +21,8 @@ A simple PHP based image uploader for dev use only. Built to provide a temporary
 ### Installation / Usage
 
 ```
-git clone https://github.com/nafeu/php-file-uploader.git
-cd php-file-uploader
+git clone https://github.com/nafeu/pseudo-storage.git
+cd pseudo-storage
 cp sample-config.php config.php
 ```
 
@@ -44,7 +46,7 @@ Now you can access `http://localhost:8000`, input the authentication token and, 
 
 ### Deployment
 
-Upload all the contents of the `php-file-uploader` root folder to your hosting server. Give the `uploads/` folder public `777` permissions **(WARNING: Do this step at your own risk)**.
+Upload all the contents of the `pseudo-storage` root folder to your hosting server. Give the `uploads/` folder public `777` permissions **(WARNING: Do this step at your own risk)**.
 
 ### Author
 
