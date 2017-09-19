@@ -1,96 +1,110 @@
-$(document).ready(function(){
-  console.log("[ scripts.js ] Document ready...");
+// ---------------------------------------------------------------------------
+$(document).ready(function(){ // Document Ready: Start
+// ---------------------------------------------------------------------------
 
-  var body = $("body"),
-      uploadResults = $("#upload-results"),
-      fileField = $("#file-field"),
-      fileFieldDesc = $("#file-field-desc"),
-      fileFieldDescDefault = fileFieldDesc.text(),
-      formData = false,
-      windowHeightOffset = 140,
-      hiddenInputOffset = 20;
+var body = $("body"),
+    uploadResults = $("#upload-results"),
+    fileField = $("#file-field"),
+    fileFieldDesc = $("#file-field-desc"),
+    fileFieldDescDefault = fileFieldDesc.text(),
+    modeButton = $("#mode-button"),
+    classField = $("#class-field"),
+    prefixField = $("#prefix-field"),
+    formData = false,
+    windowHeightOffset = 140,
+    hiddenInputOffset = 20;
 
+if (window.FormData) {
+  formData = new FormData();
+}
 
-  if (window.FormData) {
-    formData = new FormData();
-  }
+// ---------------------------------------------------------------------------
+// Application Logic
+// ---------------------------------------------------------------------------
 
-  fileField.on("change", function(event) {
-    file = this.files[0];
-    uploadFile(file, file.name);
-  });
+uploadResults.css('height', $(window).height() - windowHeightOffset);
+fileField.css('height', $(window).height() - (windowHeightOffset + hiddenInputOffset));
+fileField.css('padding-top', $(window).height() - windowHeightOffset);
 
-  fileFieldDesc.click(function(){
-    fileField.click();
-  });
+// ---------------------------------------------------------------------------
+// Event Handlers
+// ---------------------------------------------------------------------------
 
-  function uploadFile(file, source) {
-    if (file) {
-      if (!!file.type.match(/image.*/)) {
-        if (window.FileReader) {
-          var reader = new FileReader();
-          reader.readAsDataURL(file);
-        }
-
-        if (formData) {
-          formData.append("file", file);
-          // formData.append("prefix", prefix);
-        }
-
-        if (formData) {
-          fileFieldDesc.text("Uploading...");
-          $.ajax({
-            url: "upload.php",
-            type: "POST",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-              if (response.error) {
-                pushUploadResult(response.error, false, source);
-              }
-              if (response.data) {
-                pushUploadResult(response.data, true, source);
-              }
-            },
-            error: function(response) {
-              pushUploadResult(response.statusText, false, source);
-            }
-          });
-        }
-      }
-    }
-  }
-
-  document.onpaste = function(event){
-    var items = (event.clipboardData || event.originalEvent.clipboardData).items;
-    for (var i = 0; i < items.length; i++) {
-      var item = items[i];
-      if (item.kind === 'file') {
-        uploadFile(item.getAsFile(), "Clipboard");
-      }
-    }
-  };
-
-  function pushUploadResult(message, status, source) {
-    uploadResults.prepend(
-      createUiResponse(message, status, source)
-        .hide()
-        .fadeIn(500)
-    );
-    fileFieldDesc.text(fileFieldDescDefault);
-  }
-
-  uploadResults.css('height', $(window).height() - windowHeightOffset);
-  fileField.css('height', $(window).height() - (windowHeightOffset + hiddenInputOffset));
-  fileField.css('padding-top', $(window).height() - windowHeightOffset);
-  $(window).resize(function(){
-      uploadResults.css('height', $(window).height() - windowHeightOffset);
-      fileField.css('height', $(window).height() - (windowHeightOffset + hiddenInputOffset));
-      fileField.css('padding-top', $(window).height() - windowHeightOffset);
-  });
-
+fileField.on("change", function(event) {
+  file = this.files[0];
+  uploadFile(file, file.name);
 });
+
+fileFieldDesc.click(function(){
+  fileField.click();
+});
+
+document.onpaste = function(event){
+  var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+  for (var i = 0; i < items.length; i++) {
+    var item = items[i];
+    if (item.kind === 'file') {
+      uploadFile(item.getAsFile(), "Clipboard");
+    }
+  }
+};
+
+$(window).resize(function(){
+    uploadResults.css('height', $(window).height() - windowHeightOffset);
+    fileField.css('height', $(window).height() - (windowHeightOffset + hiddenInputOffset));
+    fileField.css('padding-top', $(window).height() - windowHeightOffset);
+});
+
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+function uploadFile(file, source) {
+  if (file) {
+    if (!!file.type.match(/image.*/)) {
+      if (window.FileReader) {
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+      }
+
+      if (formData) {
+        formData.append("file", file);
+        // formData.append("prefix", prefix);
+      }
+
+      if (formData) {
+        fileFieldDesc.text("Uploading...");
+        $.ajax({
+          url: "upload.php",
+          type: "POST",
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function(response) {
+            if (response.error) {
+              pushUploadResult(response.error, false, source);
+            }
+            if (response.data) {
+              pushUploadResult(response.data, true, source);
+            }
+          },
+          error: function(response) {
+            pushUploadResult(response.statusText, false, source);
+          }
+        });
+      }
+    }
+  }
+}
+
+function pushUploadResult(message, status, source) {
+  uploadResults.prepend(
+    createUiResponse(message, status, source)
+      .hide()
+      .fadeIn(500)
+  );
+  fileFieldDesc.text(fileFieldDescDefault);
+}
 
 function createUiResponse(content, validUpload, source) {
   var out = $("<div>", {class: "ui-response"});
@@ -133,3 +147,7 @@ function copyToClipboard(content) {
   document.execCommand("copy");
   $temp.remove();
 }
+
+// ---------------------------------------------------------------------------
+}); // Document Ready: End
+// ---------------------------------------------------------------------------
