@@ -46,6 +46,9 @@ var modeFactory = {
     return content;
   },
   createImageElement: function(content) {
+    if (classField.val().length > 0) {
+      return "<img class='" + classField.val() + "' src='" + content + "'/>";
+    }
     return "<img src='" + content + "'/>";
   },
   createMdElement: function(content) {
@@ -108,7 +111,9 @@ function uploadFile(file, source) {
 
       if (formData) {
         formData.append("file", file);
-        // formData.append("prefix", prefix);
+        if (prefixField.val().length > 0) {
+          formData.append("prefix", prefixField.val());
+        }
       }
 
       if (formData) {
