@@ -235,3 +235,17 @@ body {
   font-size: 0.4em;
   color: #EB6B56;
 }
+
+#token-field {
+  width: 0px;
+  padding: 0px;
+  background-color: #B05F6D;
+  transition: all 700ms ease-in-out;
+}
+
+#token-field.active {
+  width: 150px;
+  padding: 0px 5px 0px 5px;
+  margin-left: 10px;
+  background-color: #462446;
+}

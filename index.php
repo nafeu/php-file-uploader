@@ -7,14 +7,14 @@
     <title>pseudo-storage | temporary image storage</title>
     <script src="lib/jquery-3.2.1.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/styles.css">
-    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="./favicon-96x96.png">
   </head>
   <body>
     <div class="title">pseudo-storage<span class="title-desc"> ... a temporary CDN-like image storage solution.</span></div>
     <div id="options">
-      <div class="option-block bg-a">Token: <input id="token-field" type="password"></input></div>
-      <div class="option-block bg-b">Class: <input id="class-field" type="text"></input></div>
-      <div class="option-block bg-c">Prefix: <input id="prefix-field" type="text"></input></div>
+      <div id="token-button" class="option-block bg-a pointer">Token<input id="token-field" type="text"></input></div>
+      <div class="option-block bg-b">Class <input id="class-field" type="text"></input></div>
+      <div class="option-block bg-c">Prefix <input id="prefix-field" type="text"></input></div>
       <div id="mode-button" class="option-block pointer bg-d">Mode: URL</div>
     </div>
     <div id="form-container">

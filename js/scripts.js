@@ -1,5 +1,5 @@
 var body, uploadResults, fileField, fileFieldDesc, fileFieldDefault,
-    tokenField, modeButton, classField, prefixField, formData,
+    tokenField, modeButton, tokenButton, classField, prefixField, formData,
     windowHeightOffset, hiddenInputOffset, appData, modeFactory;
 
 // ---------------------------------------------------------------------------
@@ -12,6 +12,7 @@ fileField = $("#file-field");
 fileFieldDesc = $("#file-field-desc");
 fileFieldDescDefault = fileFieldDesc.text();
 tokenField = $("#token-field");
+tokenButton = $("#token-button");
 modeButton = $("#mode-button");
 classField = $("#class-field");
 prefixField = $("#prefix-field");
@@ -96,6 +97,7 @@ fileField.css('padding-top', $(window).height() - windowHeightOffset);
 // Event Handlers
 // ---------------------------------------------------------------------------
 
+// Field events
 tokenField.on("change paste keyup", function(event) {
   appData.token = $(this).val();
   saveData(appData);
@@ -111,10 +113,6 @@ prefixField.on("change paste keyup", function(event) {
   saveData(appData);
 });
 
-modeButton.click(function(){
-  modeFactory.cycleMode();
-});
-
 fileField.on("change", function(event) {
   file = this.files[0];
   uploadFile(file, file.name);
@@ -124,6 +122,20 @@ fileFieldDesc.click(function(){
   fileField.click();
 });
 
+// Button events
+modeButton.click(function(){
+  modeFactory.cycleMode();
+});
+
+tokenButton.on("mouseenter", function(){
+  tokenField.addClass("active");
+});
+
+tokenButton.on("mouseleave", function(){
+  tokenField.removeClass("active");
+});
+
+// Document events
 document.onpaste = function(event){
   var items = (event.clipboardData || event.originalEvent.clipboardData).items;
   for (var i = 0; i < items.length; i++) {
@@ -134,6 +146,7 @@ document.onpaste = function(event){
   }
 };
 
+// Window events
 $(window).resize(function(){
     uploadResults.css('height', $(window).height() - windowHeightOffset);
     fileField.css('height', $(window).height() - (windowHeightOffset + hiddenInputOffset));
